@@ -3,7 +3,7 @@
 Research tools for exploring Vision Transformer (ViT) `[CLS]`–state geometry on ImageNet-1k.  
 This repo provides:
 
-- A drop-in subclass of `transformers.ViTForImageClassification` with:
+- A subclass of `transformers.ViTForImageClassification` with:
   - Per-layer `[CLS]` extraction and caching for any ImageNet class
   - Cosine MMD and **MK-MMD** (mixture-kernel MMD) across layers / labels
   - Per-layer kernel mean embedding scores $ \hat{\mu}_{{t,y}}(c_t(z)) $ for query images
@@ -11,7 +11,6 @@ This repo provides:
   - Lightweight, per-key caching of features and Gram matrices
 - Reproducible experiment scripts (plots, heatmaps, pairwise tables, tie-like candidates)
 
-> **TL;DR**: Point the class at a ViT classifier, it ensures an on-disk ImageNet-256 split, pulls per-layer `[CLS]` states for classes you care about, and lets you compute/plot MMD & μ̂ trajectories—optionally with PCA + multi-kernel tricks.
 
 ---
 
@@ -123,11 +122,11 @@ Sample `n` images from class `y` and record the `[CLS]` state **after each trans
 
 ### μ̂ Trajectories
 
-For a query image $ z $, compute $ \hat{\mu}_{t,y}(c_t(z)) $ along layers against $P_{t,y}$:
+For a query image $ z $, compute $ \hat{\mu}_{t,y}(c_t(z)) $ along layers:
 
 - `kernel="cosine" | "mk_rbf" | "mk_laplace"`
 - Optionally scan PCA thresholds and pick the best via bootstrap std-score
-- Returns the trajectory and its mean—handy for ranking or plots
+- Returns the trajectory and its mean
 
 ### “Tie-like” Candidate Mining
 
