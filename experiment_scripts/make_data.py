@@ -36,7 +36,8 @@ if __name__ == "__main__":
     # 1) Load a pretrained ViT classifier with the geometry utilities attached.
     #    Choose a device that fits your setup: "cuda:0", "mps" (Apple), or "cpu".
     # --------------------------------------------------------------------------
-    m = ClsHiddenGeometry("google/vit-base-patch16-224", device="mps")
+    MODEL_ID = "facebook/deit-base-patch16-224"
+    m = ClsHiddenGeometry(MODEL_ID, device="mps")
 
     # Optional: print a couple label names to sanity-check your IDs.
     # id2label = getattr(m.config, "id2label", {})
@@ -51,15 +52,17 @@ if __name__ == "__main__":
     #      single key effectively *renames* it to the friendly group label.
     # --------------------------------------------------------------------------
     groups = {
-        "clock" : [409],
-        "barometer" : [426],
-        "compass" : [635],
-        "banjo": [420],
-        "cello": [486],
-        "violin": [889],
-        "orange": [950],
-        "lemon": [951],
-        "pomegranate": [957],
+        "robin" : [15],
+        "jay" : [17],
+        "chickadee" : [19],
+        "beagle": [162],
+        "lab": [208],
+        "boxer": [242],
+        "tabby": [281],
+        "siamese": [284],
+        "persian": [283],
+        "lizard": [46],
+        "snake" : [55]
     }
 
     # --------------------------------------------------------------------------

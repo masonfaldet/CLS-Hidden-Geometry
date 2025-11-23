@@ -19,6 +19,7 @@ This repo provides:
 - [Installation](#installation)
 - [Dataset & Local Cache](#dataset--local-cache)
 - [Quickstart](#quickstart)
+- [Reproducing Paper Figures](#reproducing-paper-figures)
 - [Repo Structure](#repo-structure)
 - [Key Features](#key-features)
 - [API Cheatsheet](#api-cheatsheet)
@@ -83,6 +84,19 @@ curve, mean_val = m.mu_hat_along_layers("tabby, tabby cat", 700, image_z=img, tr
 ```
 
 ---
+## Reproducing Paper Figures
+To reproduce Figure 1,2,3 from the paper. You will need to populate a directory `data/test_images` with images from the validation split. In particular,
+you need images `robin.jpg`, `jay.jpg`, `chikadee.jpg`, `beagle.jpg`, `lab.jpg`, `boxer.jpg`, `tabby.jpg`, `siamese.jpg`, `persian.jpg`, `lizzard.jpg`, `snake.jpg` which are examples pulled from HuggingFace ImageNet-1k validation split dataset 
+from classes `15`, `17`, `19`, `162`, `208`, `242`, `281`, `284`, `283`, `46`, `55` respectively. Once populated, simply run,
+
+```bash
+python3 make_data.py
+python3 mmd_experiment.py
+python3 mu_hat_experiment.py
+python3 ties.py
+```
+in order. All settings in these scripts are those used to produce the results shown in the paper.
+___
 
 ## Repo Structure
 

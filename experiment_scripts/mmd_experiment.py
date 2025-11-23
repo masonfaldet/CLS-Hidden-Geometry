@@ -44,15 +44,17 @@ import pickle  # for saving the final tables
 # ------------------------------------------------------------------------------
 # Choose a set of classes. Names should match those used in your cached states.
 labels = [
-    "clock",
-    "barometer",
-    "compass",
-    "banjo",
-    "cello",
-    "violin",
-    "orange",
-    "lemon",
-    "pomegranate"
+    "robin",
+    "jay",
+    "chikadee",
+    "beagle",
+    "lab",
+    "boxer",
+    "tabby",
+    "siamese",
+    "persian",
+    "lizard",
+    "snake"
 ]
 
 # Number of cached samples per class used to build p_{t,y}.
@@ -64,17 +66,19 @@ n_samples = 700
 # - thr_grid: PCA energy thresholds to try (best picked by bootstrap std-score)
 n_scales = 3
 thr_grid = [0.95, 0.97, 0.99]
+MODEL_ID = "facebook/deit-base-patch16-224"
 # ------------------------------------------------------------------------------
 
 # Instantiate the analyzer. Use "cuda:0", "mps", or "cpu" as appropriate.
-m = ClsHiddenGeometry("google/vit-base-patch16-224", device="mps")
+m = ClsHiddenGeometry(MODEL_ID, device="mps")
 
 # Load precomputed hidden [CLS] states (.pt) for each label.
 # If a file is missing, you can generate it via:
 #   m.compute_hidden_cls_states(label, num_samples=n_samples, batch_size=64)
 #   m.write_hidden_cls_states(label, n_samples)
 for label in labels:
-    pt_path = f"data/google__vit-base-patch16-224/{label}_{n_samples}.pt"
+    base_dir = os.path.join("../", "data", MODEL_ID.replace("/", "__"))
+    pt_path = base_dir + f"/{label}_{n_samples}.pt"
     if not os.path.exists(pt_path):
         print(f"[warn] missing cached states: {pt_path} — this label will not compute correctly.")
         continue
@@ -124,7 +128,7 @@ for i in range(N):
 # ----------------------------------------
 # Per-class “vs all others” line plots
 # ----------------------------------------
-out_dir = "../plots/single_pairs"
+out_dir = f"../plots/{m.model_id.replace('/', '__')}/single_pairs"
 os.makedirs(out_dir, exist_ok=True)
 
 # Use a categorical colormap with enough distinct colors for the N classes.
@@ -245,7 +249,7 @@ plt.close(fig_m)
 # =========================
 import datetime as dt
 
-save_dir = f"data/{m.model_id.replace('/', '__')}"
+save_dir = f"../data/{m.model_id.replace('/', '__')}"
 os.makedirs(save_dir, exist_ok=True)
 
 timestamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S")

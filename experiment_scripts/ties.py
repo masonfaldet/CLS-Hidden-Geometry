@@ -38,7 +38,7 @@ m = ClsHiddenGeometry("google/vit-base-patch16-224", device="mps")
 
 # Optional: automatically mine ambiguous (“tie-like”) candidates and save them.
 # This can be slow; once you’ve generated JPEGs in plots/candidates_ties/, comment it back out.
-# results = m.find_tie_like_candidates(print_top_k=5, max_candidates=1000)
+results = m.find_tie_like_candidates(print_top_k=5, max_candidates=1000)
 
 # See the true label for a specific validation index.
 # (This reads from the locally cached HF ImageNet-256 split, downloading if needed.)
@@ -66,7 +66,7 @@ img_path = "../plots/candidates_ties/947__idx0024373__Sm0.90__uni0.76__pm0.025__
 thr_grid = [0.90, 0.95, 0.97, 0.99]
 
 # Where to save figures produced below.
-out_dir = "../plots/tie_trajectories"
+out_dir = f"../plots/{m.model_id.replace('/', '__')}/tie_trajectories"
 os.makedirs(out_dir, exist_ok=True)  # ensure the output directory exists
 
 
@@ -75,10 +75,10 @@ os.makedirs(out_dir, exist_ok=True)  # ensure the output directory exists
 # ------------------------------------------------------------------------------
 # We build p_{t,y} for each verbose ImageNet label, then “merge” each single entry
 # to a new key with a shorter alias. (Merging one entry is effectively a rename;
-# with delete_old=True it drops the original long-name key.)
+# with delete_old = True it drops the original long-name key.)
 for i in range(len(tie_pool)):
     m.compute_hidden_cls_states(tie_pool[i], num_samples=700, batch_size=100)
-    m.merge_hidden_cls_states([(tie_pool[i], 700)], new_label=abv_labels[i])
+    m.merge_hidden_cls_states([(tie_pool[i], 700)], new_label = abv_labels[i])
 
 # ------------------------------------------------------------------------------
 # 4) Load the candidate image and set up consistent styling.

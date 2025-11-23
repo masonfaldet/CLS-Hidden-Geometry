@@ -35,7 +35,7 @@ except Exception as e:
 ImageLike = Union[Image.Image]
 
 _IMNET256_REPO = "evanarlian/imagenet_1k_resized_256"  # 256 (shorter side), has train/val/test
-_IMNET_LOCAL_ROOT = os.path.join(".", "ImageNet")
+_IMNET_LOCAL_ROOT = os.path.join("../", "ImageNet")
 _IMNET_LOCAL_TRAIN = os.path.join(_IMNET_LOCAL_ROOT, "imagenet_1k_resized_256", "train")
 
 
@@ -675,7 +675,7 @@ class ClsHiddenGeometry(ViTForImageClassification):
             self.compute_hidden_cls_states(
                 class_label=class_label, num_samples=int(n_samples), batch_size=bs
             )
-        out_dir = os.path.join("./", "data", self.model_id.replace("/", "__"))
+        out_dir = os.path.join("../", "data", self.model_id.replace("/", "__"))
         os.makedirs(out_dir, exist_ok=True)
         out_path = os.path.join(out_dir, f"{key}.pt")
         torch.save(self.hidden_cls_states[key], out_path)
@@ -2055,7 +2055,7 @@ class ClsHiddenGeometry(ViTForImageClassification):
         tau_p: float = 0.05,               # scales margin in tie score
         tau_z: float = 0.5,                # scales logit gap in tie score
         seed: int = 0,
-        out_dir: str = "./candidates_ties",
+        out_dir: str = "../plots/candidates_ties",
         shuffle: bool = True,
         print_top_k: int = 10,
     ):

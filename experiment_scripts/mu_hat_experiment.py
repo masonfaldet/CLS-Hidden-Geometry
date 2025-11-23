@@ -47,15 +47,16 @@ n_samples = 700
 # - thr_grid: PCA energy thresholds to try; best is chosen by bootstrap std-score
 n_scales = 3
 thr_grid = [0.95, 0.97, 0.99]
+MODEL_ID = "facebook/deit-base-patch16-224"
 # ------------------------------------------------------------------------------
 
 # Instantiate the ViT-based analyzer. Choose "cuda:0", "mps", or "cpu" as available.
-m = ClsHiddenGeometry("google/vit-base-patch16-224", device="mps")
+m = ClsHiddenGeometry(MODEL_ID, device="mps")
 
 # Load precomputed hidden [CLS] states for each label.
 # (If missing, you could instead call `compute_hidden_cls_states` to generate them.)
 for label in labels:
-    pt_path = f"data/google__vit-base-patch16-224/{label}_{n_samples}.pt"
+    pt_path = f"../data/{m.model_id.replace('/','__')}/{label}_{n_samples}.pt"
     if not os.path.exists(pt_path):
         print(f"[warn] missing cached states: {pt_path} — this label will not plot correctly.")
         continue
@@ -64,7 +65,7 @@ for label in labels:
 # ----------------------------------------
 # μ̂ trajectories for test images (cos & mk)
 # ----------------------------------------
-out_dir = "../plots/single_mu_hat_trajectories"
+out_dir = f"../plots/{m.model_id.replace('/','__')}/single_mu_hat_trajectories"
 os.makedirs(out_dir, exist_ok=True)
 
 # Layer axis (1..L) for plotting
@@ -79,7 +80,7 @@ colors = {lab: cmap(i % 11) for i, lab in enumerate(labels)}
 
 # Loop over test images; for each, compare against all class distributions.
 for img_label in labels:
-    img_path = f"data/test_images/{img_label}.jpg"
+    img_path = f"../data/test_images/{img_label}.jpg"
     if not os.path.exists(img_path):
         print(f"[warn] missing image: {img_path} — skipping")
         continue
