@@ -168,7 +168,7 @@ for i in range(N):
     plt.xlabel("Layer t", fontsize=16)
     plt.ylabel("MK-MMD$^2$", fontsize=16)
     plt.legend(loc="best", fontsize=16, ncols=2)
-    plt.legend(loc="best", fontsize=16, ncols=2)  # (duplicate legend is harmless; keeps behavior identical)
+    plt.legend(loc="best", fontsize=16, ncols=2)
     plt.tight_layout()
     plt.savefig(os.path.join(out_dir, f"{safe_name}__vs_all__mk.pdf"))
     plt.close()
